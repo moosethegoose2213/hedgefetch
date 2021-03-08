@@ -1,8 +1,7 @@
 # Hedgefetch
 A simple fetch-style script that lists off your Mac's specifications.
 
-![Screen Shot 2021-03-08 at 3 54 20 PM](https://user-images.githubusercontent.com/72932987/110387134-cfe5f980-8026-11eb-90d7-b0c393662a94.png)
-
+![Screen Shot 2021-03-08 at 5 15 46 PM](https://user-images.githubusercontent.com/72932987/110394600-518f5480-8032-11eb-8e2d-2e7a913ae56b.png)
 
 ## Installation
   1. Run "Hedgefetch Installer.app"
