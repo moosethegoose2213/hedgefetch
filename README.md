@@ -8,7 +8,7 @@ A simple fetch-style script that lists off your Mac's specifications.
   1. Run "Hedgefetch Installer.app"
   2. Enter your password
   3. Open Terminal located in /Applications/Utilities
-  4. Type "hedgefetch" to use
+  4. Type "hedgefetch" in Terminal to use
   
 
 
