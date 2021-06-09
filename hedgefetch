@@ -1,0 +1,201 @@
+#!/bin/bash
+
+variables() {
+    
+    blue="\033[38;5;75m"
+    red="\033[0;31m"
+    orange="\033[38;5;75m"
+    green="\033[0;32m"
+    lime="\033[38;5;221m"
+    
+    erase_style="\033[0m"
+    erase_line="\033[0K"
+    
+    move_up="\033[1A"
+    move_down="\033[1B"
+    move_foward="\033[1C"
+    move_backward="\033[1D"
+}
+
+print_universal() {
+    date=$(date +%a\ %d\ %b\ %Y)
+    echo "Current Date:" $date
+    time=$(date +%I:%M:%S\ %p\ %Z)
+    timezone=$(date +%Z)
+    ampm=$( echo "$time" | grep -qi 'PM' && echo PM || echo AM )
+    
+    if  [[ $ampm == PM ]]; then
+        time=$(date +%I:%M | sed "s/$/ PM ${timezone}/")
+    else
+        time=$(date +%I:%M:%S | sed "s/$/ AM ${timezone}/")
+    fi
+    
+    echo "Current Time: $time"
+    uptime=$(uptime | sed -E 's/^[^,]*up *//; s/mins/minutes/; s/hrs?/hours/; s/([[:digit:]]+):0?([[:digit:]]+)/\1 hours, \2 minutes/; s/^1 hours/1 hour/; s/ 1 hours/ 1 hour/; s/min,/minutes,/; s/ 0 minutes,/ less than a minute,/; s/ 1 minutes/ 1 minute/; s/  / /; s/, *[[:digit:]]* users?.*//')
+    echo "Uptime: $uptime"
+}
+
+print_linux() {
+    # Print OS image
+    ###################################
+    echo "$USER"@"$( cat /proc/sys/kernel/hostname | cut -f 1 -d .)"' ~ % hedgefetch'
+    echo "##       #### ##    ## ##     ## ##     ##"
+    echo "##        ##  ###   ## ##     ##  ##   ##"
+    echo "##        ##  ####  ## ##     ##   ## ##"
+    echo "##        ##  ## ## ## ##     ##    ###"
+    echo "##        ##  ##  #### ##     ##   ## ##"
+    echo "##        ##  ##   ### ##     ##  ##   ##"
+    printf "######## #### ##    ##  #######  ##     ##\n\n"
+
+    # Print universal
+    ###################################
+	print_universal
+
+    # Hardware ID
+    ###################################
+    cat /sys/devices/virtual/dmi/id/product_name | sed 's/^/Model: /g'
+    
+    # Linux Version
+    ###################################
+    lsb_release -a 2>/dev/null | grep "Description" | cut -f2 -d ':' | cut -c 2- | sed 's/^/OS: /g'
+    
+    # Kernel Version
+    ###################################
+    uname -r | cut -f1,2 -d '-' | sed 's/^/Kernel: /'
+    
+    # CPU
+    ###################################
+	cat /proc/cpuinfo | grep "model name" | head -n 1 | cut -f2 -d ":" | cut -c 1- | sed 's/           / /;s/([^)]*)//g;s/CPU //;s/  / /' | sed 's/^/CPU:/'
+    
+    # GPU
+    ###################################
+    #lspci | grep ' VGA ' | cut -d" " -f 1 | xargs -i lspci -v -s {} | cut -f3 -d '[' | cut -f1 -d ']' | sed '/	/d' | grep . | sed '/size=/d' | sed 's/^/GPU: /'
+    lshw -numeric -c video 2>/dev/null | grep product | cut -f2 -d '[' | cut -f1 -d ']' | sed 's/[0-9]:[0-9]//' | grep . | sed 's/^/GPU: /'
+    
+    # Monitor (possibly add in the future...)
+    ###################################
+    
+    # Resolution
+    ###################################
+    xrandr --query | grep " connected" | cut -f2 -d 'd' | sed 's/[^0-9]*//' | cut -f1 -d '(' | cut -f1 -d '+' | sed 's/^/Resolution: /g'
+    
+    # RAM garbage
+    ###################################
+    kb=$( cat /proc/meminfo | grep MemTotal | cut -f2 -d ':' | cut -c 8- | cut -f1 -d ' ')
+    MB=$(( $kb / 1024 ))
+    GB=$(( $kb / 1000/1000 ))
+    FreeMem=$( cat /proc/meminfo | grep MemFree | cut -f2 -d ':' | cut -c 8- | cut -f1 -d 'k' )
+    #UsedMem=$(top -l 1 | grep PhysMem | cut -c 10-  | cut -d ' ' -f -1 | sed 's/.$//')
+    FreeMem=$(( $FreeMem / 1000 ))
+    UsedMem=$(( $MB - $FreeMem ))
+    UsedGB=$(( $UsedMem / 1000 ))
+    MB=$( echo $MB | sed 's/$/MB/')
+    echo "$UsedMem" | sed "s/$/MB ("$UsedGB"GB) of $MB ("$GB"GB) Used/"
+    
+    ###################################
+}
+
+print_macos() {
+    # Print OS image
+    ###################################
+    echo "$USER"@"$(hostname | cut -f 1 -d .)"' ~ % hedgefetch'
+	echo "                ###  ###"
+	echo '	       ## ## #'
+	echo '##### ###   ## #   # ##'
+	echo '# # #  ##  #   #   #  ##'
+	echo '# # # # #  #   ## ##   #'
+	printf '# # # ## #  ##  ###  ###\n\n'
+    
+    # Print universal
+    ###################################
+	print_universal
+    
+    # Mac Model
+    ###################################
+	hardwareCache=$(system_profiler SPHardwareDataType)
+    if [ -f ~/Library/Preferences/com.apple.SystemProfiler.plist ];then
+        HMac=$(defaults read ~/Library/Preferences/com.apple.SystemProfiler.plist "CPU Names" | cut -f 2 -d = | sed 's/..$//' | tail -n 2 | head -n 1 | sed 's/$//' | cut -c 3-)
+    else
+        if ping -t 1 apple.com >> /dev/null ; then
+            HMac=$(curl -s 'https://support-sp.apple.com/sp/product?cc='$(echo $hardwareCache | awk '/Serial/ {print $4}' | cut -c 9-)  | sed 's|.*<configCode>\(.*\)</configCode>.*|\1|')
+        else
+            HMac=$(echo $hardwareCache | awk '/Model Name/' | cut -f 2 -d ':' | cut -c 2-)
+        fi
+    fi
+    echo Mac: "$HMac"
+    
+    # Hardware ID
+    ###################################
+    sysctl hw.model | cut -c 11\-  | sed 's/^/Model: /g'
+    
+    # macOS Version
+    ###################################
+    buildvers=$(sw_vers | grep "BuildVersion:" | sed 's/BuildVersion:	//')
+	sw_vers | grep 'ProductVersion' | awk '{print $2}' | sed "s/^/OS: macOS /;s/$/ ($buildvers)/"
+    
+    # OpenCore Version
+    ###################################
+    oc=$(nvram 4D1FDA02-38C7-4A6A-9CC6-4BCCA8B30102:opencore-version 2> /dev/null | cut -c 55-)
+    if [[ $oc ]]; then
+        echo "OpenCore Version: $oc"
+    fi
+    oclp=$(nvram  4D1FDA02-38C7-4A6A-9CC6-4BCCA8B30102:OCLP-Version 2> /dev/null | cut -f2 -d n | cut -c 2- | cut -f1 -d '%')
+    if [[ $oclp ]]; then
+        echo "OpenCore Legacy Patcher Version: $oclp"
+    fi
+    
+    # CPU
+    ###################################
+    sysctl -n machdep.cpu.brand_string  | sed 's/^/CPU: /g;s/([^)]*)//g'
+    
+    # GPU
+    ###################################
+	displayCache=$(system_profiler SPDisplaysDataType)
+
+    Metal=$(echo $displayCache | grep Metal)
+    
+    if [[ $Metal =~ "Metal" ]];then
+        Metal=$(echo '(Metal)')
+    else
+        Metal=$(echo '(OpenGL)')
+    fi
+    echo "$displayCache" | grep "Chipset Model" | cut -f 2 -d ':' | sed 's/^/GPU: /g' | sed "s/$/ ${Metal}/"
+
+    # Monitor
+    ###################################
+    echo "$displayCache"  | grep "        " | cut -c  9- | sed 's/  .*//;s/://' | grep . | sed 's/^/Monitor: /'
+
+    # Resolution
+    ###################################
+    echo "$displayCache" | grep "Resolution" | cut -c 23- | cut -f 1 -d "(" | cut -f 1 -d "R" | sed -E 's/[ ]+//g' | sed 's/^/Resolution: /g'
+
+    #RAM garbage
+    ###################################
+    kb=$(sysctl hw.memsize | cut -c 13-)
+    MB=$(( $kb / 1024/1024 ))
+    GB=$(( $kb / 1024/1024/1024 ))
+    MB=$( echo $MB | sed 's/$/MB/')
+    activeram=$(($(vm_stat | grep "Pages active:" | sed 's/[^0-9]*//g')*4096/1024/1024))
+    wiredram=$(($(vm_stat | grep "wired down:" | cut -f 2 -d ':' | sed 's/[^0-9]*//' | cut -f 1 -d '.')*4096/1024/1024))
+    compressedram=$(($(vm_stat | grep "Pages occupied by compressor:" | cut -f 2 -d ':' | sed 's/[^0-9]*//' | cut -f 1 -d '.')*4096/1024/1024))
+    UsedMem=$(( $activeram + $wiredram + $compressedram ))
+    UsedGB=$(( $UsedMem / 1024 ))
+	echo "$UsedMem" | sed "s/$/MB ("$UsedGB"GB) of $MB ("$GB"GB) Used/"
+
+	###################################
+}
+
+main() {
+	clear	
+    variables
+	# Check if Linux or macOS
+    if [ -d "/System/Library" ]; then
+        # This is macOS
+		print_macos
+    else 
+		print_linux
+	fi
+}
+
+# Run main
+main
