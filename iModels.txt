@@ -1,0 +1,119 @@
+iPhone1,1 : iPhone ; Samsung ARM 1176JZ(F)-S
+iPhone1,2 : iPhone 3G ; Samsung ARM 1176JZ(F)-S
+iPhone2,1 : iPhone 3GS ; Samsung ARM Cortex-A8
+iPhone3,1 : iPhone 4 ; Apple A4
+iPhone3,2 : iPhone 4 GSM Rev A ; Apple A4
+iPhone3,3 : iPhone 4 CDMA ; Apple A4
+iPhone4,1 : iPhone 4S ; Apple A5
+iPhone5,1 : iPhone 5 (GSM) ; Apple A6
+iPhone5,2 : iPhone 5 (GSM+CDMA) ; Apple A6
+iPhone5,3 : iPhone 5C (GSM) ; Apple A6
+iPhone5,4 : iPhone 5C (Global) ; Apple A6
+iPhone6,1 : iPhone 5S (GSM) ; Apple A7
+iPhone6,2 : iPhone 5S (Global) ; Apple A7
+iPhone7,1 : iPhone 6 Plus ; Apple A8
+iPhone7,2 : iPhone 6 ; Apple A8
+iPhone8,1 : iPhone 6s ; Apple A9
+iPhone8,2 : iPhone 6s Plus ; Apple A9
+iPhone8,4 : iPhone SE (GSM) ; Apple A9
+iPhone9,1 : iPhone 7 ; Apple A10 Fusion
+iPhone9,2 : iPhone 7 Plus ; Apple A10 Fusion
+iPhone9,3 : iPhone 7 ; Apple A10 Fusion
+iPhone9,4 : iPhone 7 Plus ; Apple A10 Fusion
+iPhone10,1 : iPhone 8 ; Apple A11 Bionic
+iPhone10,2 : iPhone 8 Plus ; Apple A11 Bionic
+iPhone10,3 : iPhone X Global ; Apple A11 Bionic
+iPhone10,4 : iPhone 8 ; Apple A11 Bionic
+iPhone10,5 : iPhone 8 Plus ; Apple A11 Bionic
+iPhone10,6 : iPhone X GSM ; Apple A11 Bionic
+iPhone11,2 : iPhone XS ; Apple A12 Bionic
+iPhone11,4 : iPhone XS Max ; Apple A12 Bionic
+iPhone11,6 : iPhone XS Max Global ; Apple A12 Bionic
+iPhone11,8 : iPhone XR ; Apple A12 Bionic
+iPhone12,1 : iPhone 11 ; Apple A13 Bionic
+iPhone12,3 : iPhone 11 Pro ; Apple A13 Bionic
+iPhone12,5 : iPhone 11 Pro Max ; Apple A13 Bionic
+iPhone12,8 : iPhone SE 2nd Gen ; Apple A13 Bionic
+iPhone13,1 : iPhone 12 Mini ; Apple A14 Bionic
+iPhone13,2 : iPhone 12 ; Apple A14 Bionic
+iPhone13,3 : iPhone 12 Pro ; Apple A14 Bionic
+iPhone13,4 : iPhone 12 Pro Max ; Apple A14 Bionic
+
+iPod1,1 : 1st Gen iPod ; Samsung ARM 1176JZ(F)-S
+iPod2,1 : 2nd Gen iPod ; Samsung ARM 1176JZ(F)-S
+iPod3,1 : 3rd Gen iPod ; Samsung ARM Cortex-A8
+iPod4,1 : 4th Gen iPod ; Apple A4
+iPod5,1 : 5th Gen iPod ; Apple A5
+iPod7,1 : 6th Gen iPod ; Apple A8
+iPod9,1 : 7th Gen iPod ; Apple A10 Fusion
+
+iPad1,1 : iPad ; Apple A4
+iPad1,2 : iPad 3G ; Apple A4
+iPad2,1 : 2nd Gen iPad ; Apple A5
+iPad2,2 : 2nd Gen iPad GSM ; Apple A5
+iPad2,3 : 2nd Gen iPad CDMA ; Apple A5
+iPad2,4 : 2nd Gen iPad New Revision ; Apple A5
+iPad3,1 : 3rd Gen iPad ; Apple A5X
+iPad3,2 : 3rd Gen iPad CDMA ; Apple A5X
+iPad3,3 : 3rd Gen iPad GSM ; Apple A5X
+iPad2,5 : iPad mini ; Apple A5
+iPad2,6 : iPad mini GSM+LTE ; Apple A5
+iPad2,7 : iPad mini CDMA+LTE ; Apple A5
+iPad3,4 : 4th Gen iPad ; Apple A6X
+iPad3,5 : 4th Gen iPad GSM+LTE ; Apple A6X
+iPad3,6 : 4th Gen iPad CDMA+LTE ; Apple A6X
+iPad4,1 : iPad Air (WiFi) ; Apple A7
+iPad4,2 : iPad Air (GSM+CDMA) ; Apple A7
+iPad4,3 : 1st Gen iPad Air (China) ; Apple A7
+iPad4,4 : iPad mini Retina (WiFi) ; Apple A7
+iPad4,5 : iPad mini Retina (GSM+CDMA) ; Apple A7
+iPad4,6 : iPad mini Retina (China) ; Apple A7
+iPad4,7 : iPad mini 3 (WiFi) ; Apple A7
+iPad4,8 : iPad mini 3 (GSM+CDMA) ; Apple A7
+iPad4,9 : iPad Mini 3 (China) ; Apple A7
+iPad5,1 : iPad mini 4 (WiFi) ; Apple A8
+iPad5,2 : 4th Gen iPad mini (WiFi+Cellular) ; Apple A8
+iPad5,3 : iPad Air 2 (WiFi) ; Apple A8X
+iPad5,4 : iPad Air 2 (Cellular) ; Apple A8X
+iPad6,3 : iPad Pro (9.7 inch, WiFi) ; Apple A9X
+iPad6,4 : iPad Pro (9.7 inch, WiFi+LTE) ; Apple A9X
+iPad6,7 : iPad Pro (12.9 inch, WiFi) ; Apple A9X
+iPad6,8 : iPad Pro (12.9 inch, WiFi+LTE) ; Apple A9X
+iPad6,11 : iPad (2017) ; Apple A9
+iPad6,12 : iPad (2017) ; Apple A9
+iPad7,1 : iPad Pro 2nd Gen (WiFi) ; Apple A10X Fusion
+iPad7,2 : iPad Pro 2nd Gen (WiFi+Cellular) ; Apple A10X Fusion
+iPad7,3 : iPad Pro 10.5-inch ; Apple A10X Fusion
+iPad7,4 : iPad Pro 10.5-inch ; Apple A10X Fusion
+iPad7,5 : iPad 6th Gen (WiFi) ; Apple A10 Fusion
+iPad7,6 : iPad 6th Gen (WiFi+Cellular) ; Apple A10 Fusion
+iPad7,11 : iPad 7th Gen 10.2-inch (WiFi) ; Apple A10 Fusion
+iPad7,12 : iPad 7th Gen 10.2-inch (WiFi+Cellular) ; Apple A10 Fusion
+iPad8,1 : iPad Pro 11 inch 3rd Gen (WiFi) ; Apple A12X Bionic
+iPad8,2 : iPad Pro 11 inch 3rd Gen (1TB, WiFi) ; Apple A12X Bionic
+iPad8,3 : iPad Pro 11 inch 3rd Gen (WiFi+Cellular) ; Apple A12X Bionic
+iPad8,4 : iPad Pro 11 inch 3rd Gen (1TB, WiFi+Cellular) ; Apple A12X Bionic
+iPad8,5 : iPad Pro 12.9 inch 3rd Gen (WiFi) ; Apple A12X Bionic
+iPad8,6 : iPad Pro 12.9 inch 3rd Gen (1TB, WiFi) ; Apple A12X Bionic
+iPad8,7 : iPad Pro 12.9 inch 3rd Gen (WiFi+Cellular) ; Apple A12X Bionic
+iPad8,8 : iPad Pro 12.9 inch 3rd Gen (1TB, WiFi+Cellular) ; Apple A12X Bionic
+iPad8,9 : iPad Pro 11 inch 4th Gen (WiFi) ; Apple A12Z Bionic
+iPad8,10 : iPad Pro 11 inch 4th Gen (WiFi+Cellular) ; Apple A12Z Bionic
+iPad8,11 : iPad Pro 12.9 inch 4th Gen (WiFi) ; Apple A12Z Bionic
+iPad8,12 : iPad Pro 12.9 inch 4th Gen (WiFi+Cellular) ; Apple A12Z Bionic
+iPad11,1 : iPad mini 5th Gen (WiFi) ; Apple A12 Bionic
+iPad11,2 : iPad mini 5th Gen ; Apple A12 Bionic
+iPad11,3 : iPad Air 3rd Gen (WiFi) ; Apple A12 Bionic
+iPad11,4 : iPad Air 3rd Gen ; Apple A12 Bionic
+iPad11,6 : iPad 8th Gen (WiFi) ; Apple A12 Bionic
+iPad11,7 : iPad 8th Gen (WiFi+Cellular) ; Apple A12 Bionic
+iPad13,1 : iPad Air 4th Gen (WiFi) ; Apple A14 Bionic
+iPad13,2 : iPad Air 4th Gen (WiFi+Cellular) ; Apple A14 Bionic
+iPad13,4 : iPad Pro 11 inch 3rd Gen ; 
+iPad13,5 : iPad Pro 11 inch 3rd Gen ; 
+iPad13,6 : iPad Pro 11 inch 3rd Gen ; 
+iPad13,7 : iPad Pro 11 inch 3rd Gen ; 
+iPad13,8 : iPad Pro 12.9 inch 5th Gen ; 
+iPad13,9 : iPad Pro 12.9 inch 5th Gen ; 
+iPad13,10 : iPad Pro 12.9 inch 5th Gen ; 
+iPad13,11 : iPad Pro 12.9 inch 5th Gen ; 
