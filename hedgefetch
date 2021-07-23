@@ -63,6 +63,17 @@ print_linux() {
     ###################################
     uname -r | cut -f1,2 -d '-' | sed 's/^/Kernel: /'
     
+    # OpenCore Version
+    ###################################
+    if [ -f /sys/firmware/efi/efivars/opencore-version-4d1fda02-38c7-4a6a-9cc6-4bcca8b30102 ]; then
+        oc=$(tr -d '\0' </sys/firmware/efi/efivars/opencore-version-4d1fda02-38c7-4a6a-9cc6-4bcca8b30102 )
+        echo "OpenCore Version: $oc"
+    fi
+    if [ -f /sys/firmware/efi/efivars/OCLP-Version-4d1fda02-38c7-4a6a-9cc6-4bcca8b30102 ]; then
+        oclp=$(tr -d '\0' </sys/firmware/efi/efivars/OCLP-Version-4d1fda02-38c7-4a6a-9cc6-4bcca8b30102)
+            echo "OpenCore Legacy Patcher Version: $oclp"
+    fi
+
     # CPU
     ###################################
 	cat /proc/cpuinfo | grep "model name" | head -n 1 | cut -f2 -d ":" | cut -c 1- | sed 's/           / /;s/([^)]*)//g;s/CPU //;s/  / /' | sed 's/^/CPU:/'
@@ -70,7 +81,7 @@ print_linux() {
     # GPU
     ###################################
     #lspci | grep ' VGA ' | cut -d" " -f 1 | xargs -i lspci -v -s {} | cut -f3 -d '[' | cut -f1 -d ']' | sed '/	/d' | grep . | sed '/size=/d' | sed 's/^/GPU: /'
-    lshw -numeric -c video 2>/dev/null | grep product | cut -f2 -d '[' | cut -f1 -d ']' | sed 's/[0-9]:[0-9]//' | grep . | sed 's/^/GPU: /'
+    lshw -numeric -c video 2>/dev/null | grep product | cut -f2 -d '[' | cut -f1 -d ']' | sed 's/.*[0-9]:[0-9].*//' | grep . | sed 's/^/GPU: /'
     
     # Monitor (possibly add in the future...)
     ###################################
