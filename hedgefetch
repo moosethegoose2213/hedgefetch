@@ -57,7 +57,7 @@ print_linux() {
     
     # Linux Version
     ###################################
-    lsb_release -a 2>/dev/null | grep "Description" | cut -f2 -d ':' | cut -c 2- | sed 's/^/OS: /g'
+    lsb_release -a 2>/dev/null | grep "Description" | cut -f2 -d ':' | cut -c 2- | sed 's/^/OS: /g;s/Arch Linux/I use Arch BTW/g'
     
     # Kernel Version
     ###################################
