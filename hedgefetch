@@ -134,7 +134,18 @@ print_macos() {
         fi
     fi
     echo Mac: "$HMac"
-    
+
+    # Mackintosh Model Info
+    ###################################    
+    vendor=$( nvram 4D1FDA02-38C7-4A6A-9CC6-4BCCA8B30102:oem-vendor 2> /dev/null | sed 's/.*	//')
+
+    hw_model=$( nvram 4D1FDA02-38C7-4A6A-9CC6-4BCCA8B30102:oem-product 2> /dev/null | sed 's/.*	//')
+    if [[ $hw_model ]]; then
+        echo "Hack: $hw_model ($vendor)"
+    fi
+
+
+
     # Hardware ID
     ###################################
     sysctl hw.model | cut -c 11\-  | sed 's/^/Model: /g'
@@ -155,13 +166,14 @@ print_macos() {
         echo "OpenCore Legacy Patcher Version: $oclp"
     fi
     
+
     # CPU
     ###################################
     sysctl -n machdep.cpu.brand_string  | sed 's/^/CPU: /g;s/([^)]*)//g'
     
     # GPU
     ###################################
-	displayCache=$(system_profiler SPDisplaysDataType)
+	displayCache=$(system_profiler SPDisplaysDataType 2>/dev/null)
 
     Metal=$(echo $displayCache | grep Metal)
     
@@ -170,7 +182,7 @@ print_macos() {
     else
         Metal=$(echo '(OpenGL)')
     fi
-    echo "$displayCache" | grep "Chipset Model" | cut -f 2 -d ':' | sed 's/^/GPU: /g' | sed "s/$/ ${Metal}/"
+    echo "$displayCache" | grep "Chipset Model" | cut -f 2 -d ':' | sed 's/^/GPU:/g' | sed "s/$/ ${Metal}/"
 
     # Monitor
     ###################################
