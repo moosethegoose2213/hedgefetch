@@ -135,11 +135,11 @@ print_macos() {
     fi
     echo Mac: "$HMac"
 
-    # Mackintosh Model Info
+    # Hackintosh Model Info
     ###################################    
     vendor=$( nvram 4D1FDA02-38C7-4A6A-9CC6-4BCCA8B30102:oem-vendor 2> /dev/null | sed 's/.*	//')
 
-    hw_model=$( nvram 4D1FDA02-38C7-4A6A-9CC6-4BCCA8B30102:oem-product 2> /dev/null | sed 's/.*	//')
+    hw_model=$( nvram 4D1FDA02-38C7-4A6A-9CC6-4BCCA8B30102:oem-product 2> /dev/null | sed 's/.*	//;s/ *$//g')
     if [[ $hw_model ]]; then
         echo "Hack: $hw_model ($vendor)"
     fi
