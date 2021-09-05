@@ -7,3 +7,6 @@ A simple fetch-style script that lists off your computer's specifications. Suppo
 ## Installation
   1. Download and run `cp ~/Downloads/hedgefetch /usr/local/bin && chmod +x /usr/local/bin/hedgefetch` in Terminal
   2. Type "hedgefetch" in Terminal to use
+
+##Notes
+* For `Hack` info with Hackintoshes, set Expose Sensitive Data to 0x8
