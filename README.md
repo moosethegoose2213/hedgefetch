@@ -9,4 +9,4 @@ A simple fetch-style script that lists off your computer's specifications. Suppo
   2. Type "hedgefetch" in Terminal to use
 
 ##Notes
-* For `Hack` info with Hackintoshes, set Expose Sensitive Data to 0x8
+* For `Hack` info with Hackintoshes, set ExposeSensitiveData to 0x8
