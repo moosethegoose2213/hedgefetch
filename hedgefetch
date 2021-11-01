@@ -88,11 +88,16 @@ print_linux() {
     
     # Resolution
     ###################################
-    xrandr --query | grep " connected" | cut -f2 -d 'd' | sed 's/[^0-9]*//' | cut -f1 -d '(' | cut -f1 -d '+' | sed 's/^/Resolution: /g'
+    xrandr --query 2>/dev/null | grep " connected" | cut -f2 -d 'd' | sed 's/[^0-9]*//' | cut -f1 -d '(' | cut -f1 -d '+' | sed 's/^/Resolution: /g'
     
+    # Battery
+    ###################################
+    cycle_count=$( cat /sys/class/power_supply/BAT0/cycle_count)
+    cat /sys/class/power_supply/BAT0/capacity | sed "s/^/Battery: /;s/$/% ($cycle_count cycles)/"
+
     # RAM garbage
     ###################################
-    kb=$( cat /proc/meminfo | grep MemTotal | cut -f2 -d ':' | cut -c 8- | cut -f1 -d ' ')
+    kb=$( cat /proc/meminfo | grep MemTotal | cut -f2 -d ':' | cut -c 8- | cut -f1 -d 'k')
     MB=$(( $kb / 1024 ))
     GB=$(( $kb / 1000/1000 ))
     FreeMem=$( cat /proc/meminfo | grep MemFree | cut -f2 -d ':' | cut -c 8- | cut -f1 -d 'k' )
@@ -123,10 +128,10 @@ print_macos() {
     
     # Mac Model
     ###################################
-	hardwareCache=$(system_profiler SPHardwareDataType)
     if [ -f ~/Library/Preferences/com.apple.SystemProfiler.plist ];then
         HMac=$(defaults read ~/Library/Preferences/com.apple.SystemProfiler.plist "CPU Names" | cut -f 2 -d = | sed 's/..$//' | tail -n 2 | head -n 1 | sed 's/$//' | cut -c 3-)
     else
+        hardwareCache=$(system_profiler SPHardwareDataType)
         if ping -t 1 apple.com >> /dev/null ; then
             HMac=$(curl -s 'https://support-sp.apple.com/sp/product?cc='$(echo $hardwareCache | awk '/Serial/ {print $4}' | cut -c 9-)  | sed 's|.*<configCode>\(.*\)</configCode>.*|\1|')
         else
@@ -191,6 +196,14 @@ print_macos() {
     # Resolution
     ###################################
     echo "$displayCache" | grep "Resolution" | cut -c 23- | cut -f 1 -d "(" | cut -f 1 -d "R" | sed -E 's/[ ]+//g' | sed 's/^/Resolution: /g'
+
+    # Battery
+    ###################################
+    if [[ $HMac =~ "MacBook" ]]; then
+        battery_cache=$(system_profiler SPPowerDataType)
+        cycle_count=$( echo "$battery_cache" | grep Cycle | cut -f2 -d ':' | cut -c 2- )
+        echo "$battery_cache" | grep State | cut -f2 -d ':' | cut -c 2- | sed "s/^/Battery: /;s/$/% ($cycle_count cycles)/"
+    fi
 
     #RAM garbage
     ###################################
