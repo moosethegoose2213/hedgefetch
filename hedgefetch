@@ -92,8 +92,10 @@ print_linux() {
     
     # Battery
     ###################################
-    cycle_count=$( cat /sys/class/power_supply/BAT0/cycle_count)
-    cat /sys/class/power_supply/BAT0/capacity | sed "s/^/Battery: /;s/$/% ($cycle_count cycles)/"
+    if [ -f /sys/class/power_supply/BAT0/capacity ]; then
+	cycle_count=$( cat /sys/class/power_supply/BAT0/cycle_count)
+    	cat /sys/class/power_supply/BAT0/capacity | sed "s/^/Battery: /;s/$/% ($cycle_count cycles)/"
+    fi
 
     # RAM garbage
     ###################################
