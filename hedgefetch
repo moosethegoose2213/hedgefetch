@@ -176,7 +176,7 @@ print_macos() {
 
     # CPU
     ###################################
-    sysctl -n machdep.cpu.brand_string  | sed 's/^/CPU: /g;s/([^)]*)//g'
+    sysctl -n machdep.cpu.brand_string  | sed 's/^/CPU: /g;s/([^)]*)//g;s/  //g'
     
     # GPU
     ###################################
