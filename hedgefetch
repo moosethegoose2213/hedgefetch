@@ -1,5 +1,4 @@
 #!/bin/bash
-
 variables() {
     
     blue="\033[38;5;75m"
@@ -31,12 +30,12 @@ print_universal() {
     fi
     
     echo "Current Time: $time"
-    uptime=$(uptime | sed -E 's/^[^,]*up *//; s/mins/minutes/; s/hrs?/hours/; s/([[:digit:]]+):0?([[:digit:]]+)/\1 hours, \2 minutes/; s/^1 hours/1 hour/; s/ 1 hours/ 1 hour/; s/min,/minutes,/; s/ 0 minutes,/ less than a minute,/; s/ 1 minutes/ 1 minute/; s/  / /; s/, *[[:digit:]]* users?.*//')
-    echo "Uptime: $uptime"
+    uptime=$(uptime | sed -E 's/^[^,]*up *//; s/mins/minutes/; s/hrs?/hours/; s/([[:digit:]]+):0?([[:digit:]]+)/\1 hours, \2 minutes/; s/^1 hours/1 hour/; s/ 1 hours/ 1 hour/; s/min,/minutes,/; s/ 0 minutes,/ less than a minute,/; s/ 1 minutes/ 1 minute/; s/  / /; s/, *[[:digit:]]* users?.*//' 2>/dev/null)
+    [[ ! -z $uptime ]] && echo "Uptime: $uptime"
 }
 
 print_linux() {
-    # Print OS image
+   # Print OS image
     ###################################
     echo "$USER"@"$( cat /proc/sys/kernel/hostname | cut -f 1 -d .)"' ~ % hedgefetch'
     echo "##       #### ##    ## ##     ## ##     ##"
@@ -114,7 +113,7 @@ print_linux() {
 }
 
 print_macos() {
-    # Print OS image
+     # Print OS image
     ###################################
     echo "$USER"@"$(hostname | cut -f 1 -d .)"' ~ % hedgefetch'
 	echo "                ###  ###"
@@ -223,17 +222,85 @@ print_macos() {
 	###################################
 }
 
+
+
+print_ios() {
+    # Print OS image
+    ###################################
+    echo "$(scutil --get LocalHostName):~ hedgefetch "$1""
+	echo '####  #######   ######  '
+	echo ' ##  ##     ## ##    ## '
+	echo ' ##  ##     ## ##       '
+	echo ' ##  ##     ##  ######  '
+	echo ' ##  ##     ##       ## '
+	echo ' ##  ##     ## ##    ## '
+	printf '####  #######   ######\n\n'
+
+
+    # Print universal
+    ###################################
+	print_universal
+    
+	# Empty Cache, download necessary files
+	###################################
+	[[ ! -x /usr/bin/wget ]] && echo "Please install \`wget\` through your package manager and try again!" && exit
+	[[ $1 =~ "-clearcache" ]] && rm /var/cache/hedgedisplay && rm /var/cache/iModels.txt
+	[[ ! -f /var/cache/iModels.txt ]] && { printf "Download prerequisite?\ny/n\n"; read choice; [[ $choice =~ "y" ]] && wget https://raw.githubusercontent.com/moosethegoose2213/hedgefetch/main/iModels.txt -P /var/cache/ 2>/dev/null ;}
+    # iPhone Model
+    ###################################
+	model=$(cat /var/cache/iModels.txt | grep $(uname -m) | cut -f2 -d ":" | cut -f1 -d ";")
+	echo iPhone: $model
+    
+    # Hardware ID
+    ###################################
+    echo "Model: $(uname -m) ($(sysctl hw.model | cut -c 11\-))"
+    
+	# iOS Version
+    ###################################
+    buildvers=$(sw_vers | grep "BuildVersion:" | sed 's/BuildVersion://' | cut -c 4-)
+	sw_vers | grep 'ProductVersion' | cut -f2 -d ":" | sed "s/^/iOS:/;s/$/ ($buildvers)/"
+
+    # CPU
+    ###################################
+    cat /var/cache/iModels.txt | grep $(uname -m) | cut -f2 -d ";" | sed "s/^/CPU:/g;s/$/ \($(sysctl -n hw.ncpu)\ Logical Cores)/"
+    
+	# GPU	#NO CLUE WHAT TO DO HERE, BROKEN
+    ###################################
+	#displayCache=$(system_profiler SPDisplaysDataType)
+    cat /var/cache/iModels.txt | grep $(uname -m) | cut -f3 -d ";" | sed "s/^/GPU:/g"
+
+  
+	#Display
+	###################################
+    cat /var/cache/iModels.txt | grep $(uname -m) | cut -f4 -d ";" | sed "s/^/Display:/g"
+	
+	#RAM garbage
+    ###################################
+    kb=$(sysctl hw.memsize | cut -c 13-)
+    MB=$(( $kb / 1024/1024 ))
+    MB=$( echo $MB | sed 's/$/MB/')
+    activeram=$(($(vm_stat | grep "Pages active:" | sed 's/[^0-9]*//g')*4096/1024/1024))
+    wiredram=$(($(vm_stat | grep "wired down:" | cut -f 2 -d ':' | sed 's/[^0-9]*//' | cut -f 1 -d '.')*4096/1024/1024))
+    compressedram=e
+    UsedMem=$(( $activeram + $wiredram + $compressedram ))
+	echo "$UsedMem" | sed "s/$/MB of $MB Used/"
+
+	###################################
+
+
+}
 main() {
 	clear	
     variables
-	# Check if Linux or macOS
-    if [ -d "/System/Library" ]; then
-        # This is macOS
-		print_macos
-    else 
-		print_linux
+	# Check if Linux, macOS, or iOS
+    if [ -d "/auxfiles" ]; then
+		print_ios "$@"
+	elif [ -d /System/Library ] ; then
+		print_macos "$@"
+	else
+		print_linux "$@"
 	fi
 }
 
 # Run main
-main
+main "$@"
